@@ -40,7 +40,7 @@ This project recreates the bouncing red‑and‑white checkered ball with modern
    ```bash
    git clone https://github.com/YourUserName/BoingBallSaver.git
 
-2. Open the project in Visual Studio (Windows). (Or just download the zip with the scr in it and skip to step 4 after unzipping - Latest release is v1.2 - Download here:vsproject/BoingBallSaver/BoingBallSaver_v1_2.zip)
+2. Open the project in Visual Studio (Windows). 
 
 3. Build the project — output will be a .scr file.
 
@@ -63,3 +63,7 @@ Sound Effects: Enable/disable bounce sounds.
 Background Color: Choose any color for the scene.
 
 Geometry Mode: Switch between Classic (Amiga‑style 16×8 sphere) and Smooth (high‑res 64×32 sphere).
+
+## Releases
+Latest:
+v1.2 - https://github.com/Sinphaltimus/Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11/releases?
