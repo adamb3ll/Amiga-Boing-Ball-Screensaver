@@ -40,7 +40,7 @@ This project recreates the bouncing red‑and‑white checkered ball with modern
    ```bash
    git clone https://github.com/YourUserName/BoingBallSaver.git
 
-2. Open the project in Visual Studio (Windows). (Or just download the zip with the scr in it and skip to step 4 after unzipping - Latest release is v1.2 - Download here: https://github.com/Sinphaltimus/Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11/blob/main/vsproject/x64/Release/BoingBallSaver_v1.2.scr.zip)
+2. Open the project in Visual Studio (Windows). (Or just download the zip with the scr in it and skip to step 4 after unzipping - Latest release is v1.2 - Download here:vsproject/BoingBallSaver/BoingBallSaver_v1_2.zip)
 
 3. Build the project — output will be a .scr file.
 
