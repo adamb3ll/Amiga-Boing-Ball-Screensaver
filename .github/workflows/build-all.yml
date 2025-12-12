@@ -35,14 +35,16 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Configure CMake
+      working-directory: windows-mac-opengl
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
     
     - name: Build
+      working-directory: windows-mac-opengl
       run: cmake --build build --config Release
     
     - name: Upload macOS Screensaver
       uses: actions/upload-artifact@v4
       with:
         name: BoingBallSaver-macOS
-        path: build/BoingBallSaver.saver
+        path: windows-mac-opengl/build/BoingBallSaver.saver
 

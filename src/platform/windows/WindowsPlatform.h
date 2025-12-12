@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../core/Platform.h"
+#include "core/Platform.h"
 #include <windows.h>
 
 class WindowsPlatform : public IPlatform {

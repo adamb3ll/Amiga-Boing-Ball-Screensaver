@@ -28,6 +28,10 @@ if(WIN32)
         src/resource.h
     )
     
+    target_include_directories(BoingBallSaver PRIVATE 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+    
     target_link_libraries(BoingBallSaver PRIVATE
         BoingCore
         opengl32
@@ -35,6 +39,9 @@ if(WIN32)
         gdi32
         winmm
     )
+    
+    # Enable Unicode for Windows API calls
+    target_compile_definitions(BoingBallSaver PRIVATE UNICODE _UNICODE)
     
     # Set output to .scr extension
     set_target_properties(BoingBallSaver PROPERTIES
