@@ -13,7 +13,7 @@ jobs:
     name: Build Windows
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Configure CMake
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
@@ -22,7 +22,7 @@ jobs:
       run: cmake --build build --config Release
     
     - name: Upload Windows Screensaver
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BoingBallSaver-Windows
         path: build/Release/BoingBallSaver.scr
@@ -32,7 +32,7 @@ jobs:
     name: Build macOS
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Configure CMake
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
@@ -41,7 +41,7 @@ jobs:
       run: cmake --build build --config Release
     
     - name: Upload macOS Screensaver
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BoingBallSaver-macOS
         path: build/BoingBallSaver.saver
