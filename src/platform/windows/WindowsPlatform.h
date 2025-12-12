@@ -5,6 +5,11 @@
 #include "core/Platform.h"
 #include <windows.h>
 
+// Undefine Windows PlaySound macro to avoid conflict with our PlaySound method
+#ifdef PlaySound
+#undef PlaySound
+#endif
+
 class WindowsPlatform : public IPlatform {
 public:
     WindowsPlatform(HINSTANCE hInstance);
