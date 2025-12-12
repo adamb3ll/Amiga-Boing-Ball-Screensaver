@@ -19,7 +19,8 @@ void WindowsPlatform::PlaySound(SoundType type) {
     if (!m_soundEnabled) return;
     
     int resourceId = (type == SoundType::FloorBounce) ? BOINGF : BOINGW;
-    ::PlaySound(MAKEINTRESOURCE(resourceId), m_hInstance, SND_RESOURCE | SND_ASYNC);
+    // Use PlaySoundW directly since we're using UNICODE and undef'd the macro
+    PlaySoundW(MAKEINTRESOURCEW(resourceId), m_hInstance, SND_RESOURCE | SND_ASYNC);
 }
 
 double WindowsPlatform::GetHighResolutionTime() {
