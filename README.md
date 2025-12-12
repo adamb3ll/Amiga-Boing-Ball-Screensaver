@@ -4,6 +4,8 @@ A screensaver for **Windows 10/11** and **macOS** that recreates the iconic Amig
 
 **Cross-platform support: Windows (OpenGL) and macOS (OpenGL)**
 
+> ⚠️ **Note**: The Windows version has been refactored for cross-platform compatibility but has not yet been tested on a Windows machine. The macOS version has been tested and is working. Windows testing is pending before merging with the original repository.
+
 ---
 
 ## ✨ Features
