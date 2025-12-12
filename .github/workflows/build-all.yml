@@ -2,7 +2,7 @@ name: Build All Platforms
 
 on:
   push:
-    branches: [ main, windows-mac-opengl-port ]
+    branches: [ main, dev ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
