@@ -1,8 +1,8 @@
 #include <windows.h>
 #include "resource.h"
 
-BOINGF WAVE "BoingBallF.wav"
-BOINGW WAVE "BoingBallW.wav"
+BOINGF WAVE "../sounds/BoingBallF.wav"
+BOINGW WAVE "../sounds/BoingBallW.wav"
 
 IDD_CONFIG DIALOGEX 0, 0, 220, 120
 STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
