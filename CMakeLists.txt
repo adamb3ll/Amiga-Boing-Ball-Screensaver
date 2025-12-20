@@ -113,4 +113,3 @@ set_target_properties(BoingBallTestApp PROPERTIES
 install(TARGETS BoingBallSaver
     LIBRARY DESTINATION "$ENV{HOME}/Library/Screen Savers"
 )
-
