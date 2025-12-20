@@ -77,6 +77,17 @@ MacPlatform::~MacPlatform() {
 
 void MacPlatform::LoadSounds() {
     @autoreleasepool {
+        // CRITICAL: Release existing sounds first to prevent memory leaks
+        // This can happen if LoadSounds() is called multiple times (e.g., from PlaySound)
+        if (m_floorSound) {
+            [m_floorSound release];
+            m_floorSound = nil;
+        }
+        if (m_wallSound) {
+            [m_wallSound release];
+            m_wallSound = nil;
+        }
+        
         // Load sounds from bundle resources
         // For screensavers, we need to find the .saver bundle
         // Try multiple bundle lookup methods to find the screensaver bundle

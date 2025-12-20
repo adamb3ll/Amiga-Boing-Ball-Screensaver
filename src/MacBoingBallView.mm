@@ -6,6 +6,8 @@
 #include "core/BoingRenderer.h"
 #include "core/BoingConfig.h"
 #import <os/log.h>
+#import <mach/mach.h>
+#import <dispatch/dispatch.h>
 
 static os_log_t getLog() {
     static os_log_t log = NULL;
@@ -263,7 +265,7 @@ static os_log_t getLog() {
     // Stop animation first
     _isAnimating = NO;
     
-    // Invalidate timer
+    // Invalidate timers
     if (_fullscreenTimer) {
         [_fullscreenTimer invalidate];
         _fullscreenTimer = nil;
@@ -408,6 +410,13 @@ static os_log_t getLog() {
 
 - (void)removeFromSuperview {
     // Cleanup handled by stopAnimation and dealloc
+    // HEAVY-HANDED FIX: Also exit when view is removed (catches wallpaper instances that don't call stopAnimation)
+    if (![self isPreview]) {
+        os_log(getLog(), "removeFromSuperview - forcing legacyScreenSaver process exit (macOS 14+ workaround)");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            exit(0);
+        });
+    }
     [super removeFromSuperview];
 }
 
@@ -456,8 +465,8 @@ static os_log_t getLog() {
                                                  selector:@selector(timerFired:)
                                                  userInfo:nil
                                                   repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_fullscreenTimer forMode:NSRunLoopCommonModes];
-    }
+            [[NSRunLoop currentRunLoop] addTimer:_fullscreenTimer forMode:NSRunLoopCommonModes];
+        }
 }
 
 - (void)stopAnimation {
@@ -471,10 +480,22 @@ static os_log_t getLog() {
         _platform->DisableSounds();
     }
     
-    // Invalidate the timer
+    // Invalidate timers
     if (_fullscreenTimer) {
         [_fullscreenTimer invalidate];
         _fullscreenTimer = nil;
+    }
+    
+    // HEAVY-HANDED FIX for macOS 14+ (Sonoma) legacyScreenSaver memory leak
+    // Also exit from stopAnimation as backup (wallpaper instances might not receive willStop)
+    // See: https://github.com/AerialScreensaver/ScreenSaverMinimal
+    // Only do this for full-screen mode, NOT preview mode (which runs in System Settings)
+    if (![self isPreview]) {
+        os_log(getLog(), "stopAnimation called - forcing legacyScreenSaver process exit (macOS 14+ workaround)");
+        // Give a brief moment for cleanup, then exit
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            exit(0);
+        });
     }
 }
 
@@ -489,6 +510,21 @@ static os_log_t getLog() {
     if (_fullscreenTimer) {
         [_fullscreenTimer invalidate];
         _fullscreenTimer = nil;
+    }
+    
+    // HEAVY-HANDED FIX for macOS 14+ (Sonoma) legacyScreenSaver memory leak
+    // See: https://github.com/AerialScreensaver/ScreenSaverMinimal
+    // macOS Sonoma+ introduced a bug where legacyScreenSaver.appex doesn't properly
+    // send stopAnimation messages or destroy instances, leading to memory accumulation.
+    // The only known workaround is to force the entire legacyScreenSaver process to exit.
+    // This is "heavy handed" but necessary until Apple fixes the underlying issue.
+    // Only do this for full-screen mode, NOT preview mode (which runs in System Settings)
+    if (![self isPreview]) {
+        os_log(getLog(), "Forcing legacyScreenSaver process exit to prevent memory leak (macOS 14+ workaround)");
+        // Give a brief moment for cleanup, then exit
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            exit(0);
+        });
     }
 }
 
@@ -512,6 +548,15 @@ static os_log_t getLog() {
     if (_fullscreenTimer) {
         [_fullscreenTimer invalidate];
         _fullscreenTimer = nil;
+    }
+    
+    // HEAVY-HANDED FIX: Also exit when window resigns key (catches wallpaper instances)
+    // Wallpaper instances might not receive willStop or stopAnimation
+    if (![self isPreview]) {
+        os_log(getLog(), "windowDidResignKey - forcing legacyScreenSaver process exit (macOS 14+ workaround)");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            exit(0);
+        });
     }
 }
 
@@ -922,5 +967,6 @@ static os_log_t getLog() {
         _renderConfig->showFPS = showFPS;
     }
 }
+
 
 @end

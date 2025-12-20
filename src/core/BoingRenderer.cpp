@@ -21,10 +21,18 @@ BoingRenderer::BoingRenderer()
 }
 
 BoingRenderer::~BoingRenderer() {
+    // NOTE: Cleanup() may be called here without a valid OpenGL context
+    // (e.g., if the context was already released). This is safe - glDeleteTextures
+    // will fail silently without a context, and gluDeleteQuadric doesn't require one.
+    // The proper cleanup happens in MacBoingBallView::dealloc before the context is released.
     Cleanup();
 }
 
 void BoingRenderer::Initialize(int width, int height) {
+    // CRITICAL: Clean up any existing resources first to prevent leaks
+    // This can happen if Initialize() is called multiple times (e.g., view reuse)
+    Cleanup();
+    
     // Reset FPS accumulator state (in case renderer is reused)
     m_fpsAccumulator = 0.0f;
     m_fpsTimeAccumulator = 0.0f;
@@ -60,11 +68,7 @@ void BoingRenderer::Initialize(int width, int height) {
     CreateCheckerTexture();
     
     // Create cached quadric for sphere rendering (reused every frame)
-    // Ensure it's clean - delete old one if it exists (shouldn't happen, but safety)
-    if (m_quadric) {
-        gluDeleteQuadric(m_quadric);
-        m_quadric = nullptr;
-    }
+    // Cleanup() already deleted any existing quadric, so this is safe
     m_quadric = gluNewQuadric();
     gluQuadricTexture(m_quadric, GL_TRUE);
     
@@ -74,6 +78,10 @@ void BoingRenderer::Initialize(int width, int height) {
 }
 
 void BoingRenderer::Cleanup() {
+    // NOTE: This may be called without a valid OpenGL context (e.g., from destructor).
+    // glDeleteTextures will fail silently without a context, but it's safe to call.
+    // gluDeleteQuadric doesn't require a context.
+    // The proper cleanup happens in MacBoingBallView::dealloc with a valid context.
     if (m_checkerTexture) {
         glDeleteTextures(1, &m_checkerTexture);
         m_checkerTexture = 0;
