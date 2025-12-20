@@ -1,65 +1,114 @@
-# Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11
-A screensaver for Windows 10/11 that mimics the iconic Amiga Boing  Ball demo with options.
+# Boing Ball Screensaver for macOS
 
-# BoingBallSaver
+A macOS port of the [Amiga Boing Ball Screensaver for Windows](https://github.com/Sinphaltimus/Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11), featuring smooth 120 FPS animation and authentic sound effects.
 
-A Windows screensaver inspired by the classic Amiga **Boing Ball Demo**.  
-This project recreates the bouncing red‑and‑white checkered ball with modern OpenGL, configurable options, and a nostalgic twist.
+> **Note:** This is a macOS-only port. For the original Windows version, see the [original repository](https://github.com/Sinphaltimus/Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11).
 
----
+## Features
 
-## ✨ Features
+- **Smooth 120 FPS animation** - Optimized rendering for buttery-smooth performance
+- **Authentic sound effects** - Original bounce and wall hit sounds
+- **Customisable appearance** - Configure shadows, grid, ball lighting, and background colour
+- **FPS counter** - Optional on-screen frame rate display for performance monitoring
+- **High-quality rendering** - Smooth or low-poly geometry options
 
-- **Bouncing Boing Ball** with realistic gravity, restitution, and spin physics.
-- **Configurable options** via dialog:
-  - Floor shadow toggle
-  - Wall shadow toggle
-  - Grid overlay toggle
-  - Sound effects toggle
-  - Background color picker
-  - Geometry mode toggle (Classic 16×8 vs Smooth 64×32 tessellation)
-- **Input triggers**: Screensaver exits on any key press or mouse click.
-- **Cursor hiding**: Mouse pointer is hidden during full‑screen saver mode.
-- **Preview mode support**: Runs safely inside Windows Display Settings preview window.
+## Requirements
 
----
+- macOS 10.13 (High Sierra) or later
+- Xcode Command Line Tools (for building from source)
 
-## 📂 Project Structure
+## Installation
 
-- `BoingBallSaver.cpp` — main source code
-- `resource.h` — dialog and control IDs
-- `.rc` file — dialog layout and resources
-- `sounds/` — Boing ball bounce and wall hit WAV files
-- `docs/` — optional screenshots, quick reference cards, or guides
+### From Source
 
----
+1. Clone this repository:
+```bash
+git clone https://github.com/adamb3ll/Amiga-Boing-Ball-Screensaver.git
+cd Amiga-Boing-Ball-Screensaver
+```
 
-## 🛠️ Installation
+2. Build the screensaver:
+```bash
+mkdir build && cd build
+cmake ..
+cmake --build .
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YourUserName/BoingBallSaver.git
+3. Install:
+```bash
+cmake --install .
+```
 
-2. Open the project in Visual Studio (Windows). (Or just download the zip with the scr in it and skip to step 4 after unzipping - Latest release is v1.2 - Download here: https://github.com/Sinphaltimus/Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11/blob/main/vsproject/x64/Release/BoingBallSaver_v1.2.scr.zip)
+The screensaver will be installed to `~/Library/Screen Savers/BoingBallSaver.saver`
 
-3. Build the project — output will be a .scr file.
+4. Enable it:
+   - Open System Settings → Desktop & Dock → Screen Saver
+   - Select "Boing Ball" from the list
+   - Click "Screen Saver Options" to configure
 
-4. Copy the .scr file into your Windows system32 or sysWOW64 directory.
+### Test App
 
-6. Right‑click on your desktop → Personalize → Lock Screen → Screen Saver Settings. Select BoingBallSaver from the list.
+A standalone test app is also built for performance testing:
 
-⚙️ Configuration:
+```bash
+cd build
+./BoingBallTestApp.app
+```
 
-Open the screensaver’s Settings dialog to adjust:
+Press **Cmd+Q**, **ESC**, or **Q** to quit the test app.
 
-Floor Shadow: Toggle shadow under the ball.
+## Configuration
 
-Wall Shadow: Toggle shadow against the back wall.
+Click "Screen Saver Options" in System Settings to configure:
 
-Grid Overlay: Toggle floor/wall grid lines.
+- **Floor Shadow** - Show shadow on the floor
+- **Wall Shadow** - Show shadow on the wall
+- **Grid** - Display checkerboard grid
+- **Sound** - Enable bounce sound effects
+- **Smooth Geometry** - Use high-quality sphere rendering
+- **Ball Lighting** - Enable dynamic lighting on the ball
+- **Show FPS Counter** - Display frame rate in top-left corner
+- **Background Colour** - Choose the background colour
 
-Sound Effects: Enable/disable bounce sounds.
+## Performance
 
-Background Color: Choose any color for the scene.
+The screensaver is optimised for 120 FPS performance with:
+- Direct OpenGL rendering (no AppKit overhead)
+- Efficient physics calculations
+- Cached OpenGL resources
+- Optimised timer callbacks
 
-Geometry Mode: Switch between Classic (Amiga‑style 16×8 sphere) and Smooth (high‑res 64×32 sphere).
+## Building
+
+### Prerequisites
+
+- CMake 3.15 or later
+- Xcode Command Line Tools
+
+### Build Steps
+
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build .
+cmake --install .  # Installs to ~/Library/Screen Savers
+```
+
+### Targets
+
+- `BoingBallSaver` - The screensaver bundle (.saver)
+- `BoingBallTestApp` - Standalone test application (.app)
+
+## License
+
+Licensed under the MIT License. See LICENSE file for details.
+
+## Credits
+
+- **Original Amiga Boing Ball Demo**: Eric Graham (1986)
+- **Windows Screensaver**: [Sinphaltimus Exmortus](https://github.com/Sinphaltimus/Amiga-Boing-Ball-Screensaver-for-Windows-10-and-11)
+- **macOS Port**: adamb3ll
+
+This macOS port maintains the authentic look and feel of the original Windows version while adding modern performance optimisations for macOS.
+
